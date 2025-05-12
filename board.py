@@ -9,7 +9,7 @@ class board():
 
 
     def PrintBoard(self):
-        print("  1 2 3 4 5 6 7  ")
+        print("  0 1 2 3 4 5 6  ")
         for row in self._boardLayout:
             print("|",row[0],row[1],row[2],row[3],row[4],row[5],row[6],"|")
 
@@ -31,27 +31,48 @@ class board():
             return False
 
 
-    def CheckForWinner(self):
-        for row in self._boardLayout:
-            for collumn in row:
+    def CheckForWinner(self,lastRow,lastCollumn):
+        for collumn in range(lastCollumn,lastCollumn - 4,-1):
+            if 0 <= collumn <= 3:
+                self.CheckRow(lastRow,collumn)
 
-                if collumn <= 3:
-                    self.CheckRow(row,collumn)
+        for row in range(lastRow,lastRow - 4,-1):
+            if 0 <= row <= 2:
+                self.CheckCollumn(row,lastCollumn)
 
-                if row <= 2:
-                    self.CheckCollumn(row,collumn)
+        for i in range(4):
+            row = lastRow - i
+            collumn = lastCollumn + i
+            if 0 <= row <= 2 and 3 <= collumn <= 6:
+                self.CheckPosDiagonal(row,collumn)
 
-                if row >=3 and collumn <=2:
-                    self.CheckPosDiagonal(row,collumn)
+        for i in range (4):
+            row = lastRow - i
+            collumn = lastCollumn - i
+            if 0 <= row <= 2 and 0 <= collumn <= 2:
+                self.CheckNegDiagonal(row,collumn)
 
-                if row <=3 and collumn <=2:
-                    self.CheckNegDiagonal(row,collumn)
+    def CheckRow(self,row,inCollumn):
+        spaces = []
+        print(row,inCollumn)
+        for collumn in range(inCollumn,inCollumn + 4):
+            spaces.append(self._boardLayout[row][collumn])
+        print(spaces)
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
 
-    def CheckRow(self,row,collumn):
-        pass
-
-    def CheckCollumn(self,row,collumn):
-        pass
+    def CheckCollumn(self,inRow,collumn):
+        print(inRow, collumn)
+        spaces = []
+        for row in range(inRow,inRow + 4):
+            spaces.append(self._boardLayout[row][collumn])
+        print(spaces)
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
 
     def CheckPosDiagonal(self,row,collumn):
         pass
