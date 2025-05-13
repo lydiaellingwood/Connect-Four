@@ -1,11 +1,12 @@
 class board():
-    def __init__(self):
+    def __init__(self,testMode):
         self._boardLayout = []
         for r in range (6):
             row = r
             self._boardLayout.append([])
             for c in range (7):
                 self._boardLayout[row].append("_")
+        self._testMode = testMode
 
 
     def PrintBoard(self):
@@ -75,7 +76,22 @@ class board():
             return True
 
     def CheckPosDiagonal(self,row,collumn):
-        pass
+        print(row,collumn)
+        spaces = []
+        for i in range(4):
+            spaces.append(self._boardLayout[row+i][collumn-i])
+        print(spaces)
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
 
     def CheckNegDiagonal(self,row,collumn):
-        pass
+        spaces = []
+        for i in range(4):
+            spaces.append(self._boardLayout[row + i][collumn + i])
+        print(spaces)
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
