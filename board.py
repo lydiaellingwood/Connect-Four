@@ -15,17 +15,19 @@ class board():
             print("|",row[0],row[1],row[2],row[3],row[4],row[5],row[6],"|")
 
     def PlaceDisk(self, player, collumn):
+        placedRow = 0
         for row in range (5,-1,-1):
             if self._boardLayout[row][collumn] == "_":
                 self._boardLayout[row][collumn] = player.GetSymbol()
                 spaceFound = True
+                placedRow = row
                 break
 
             else:
                 spaceFound = False  # will return false if there was no empty space in a collumn
 
         if spaceFound:
-            return True
+            return placedRow
 
         else:
             print("That collumn is full, try again")

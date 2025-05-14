@@ -12,9 +12,8 @@ def main():
     newGame = game(newBoard,p1,p2)
     newGame.RunGame()
 
-    for i in range(4):
-         newBoard.PlaceDisk(p2,3)
     newBoard.PrintBoard()
-    newBoard.CheckForWinner(5,3)
+
+
 
 main()
