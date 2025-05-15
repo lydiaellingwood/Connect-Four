@@ -35,54 +35,80 @@ class board():
 
 
     def CheckForWinner(self,lastRow,lastCollumn):
+        gameOver = False
+        wonBy = ""
         for collumn in range(lastCollumn,lastCollumn - 4,-1):
-            if 0 <= collumn <= 3:
-                self.CheckRow(lastRow,collumn)
+            if gameOver:
+                break
+            elif 0 <= collumn <= 3:
+                if self.CheckRow(lastRow,collumn):
+                    gameOver = True
+                    wonBy = "row from (" + str(collumn) + "," + str(lastRow) + ") to (" + str(collumn + 3) + "," + str(lastRow) + ")."
+                    break
 
         for row in range(lastRow,lastRow - 4,-1):
-            if 0 <= row <= 2:
-                self.CheckCollumn(row,lastCollumn)
+            if gameOver:
+                break
+            elif 0 <= row <= 2:
+                if self.CheckCollumn(row,lastCollumn):
+                    gameOver = True
+                    wonBy = "collumn from (" + str(collumn) + "," + str(lastRow) + ") to (" + str(collumn) + "," + str(lastRow + 3) + ")."
+
 
         for i in range(4):
             row = lastRow - i
             collumn = lastCollumn + i
-            if 0 <= row <= 2 and 3 <= collumn <= 6:
-                self.CheckPosDiagonal(row,collumn)
+
+            if gameOver:
+                break
+            elif 0 <= row <= 2 and 3 <= collumn <= 6:
+                if self.CheckPosDiagonal(row,collumn):
+                    gameOver = True
+                    wonBy = "diagonal from (" + str(collumn) + "," + str(lastRow) + ") to (" + str(collumn - 3) + "," + str(lastRow + 3) + ")."
 
         for i in range (4):
             row = lastRow - i
             collumn = lastCollumn - i
-            if 0 <= row <= 2 and 0 <= collumn <= 2:
-                self.CheckNegDiagonal(row,collumn)
+
+            if gameOver:
+                break
+            elif 0 <= row <= 2 and 0 <= collumn <= 2:
+                if self.CheckNegDiagonal(row,collumn):
+                    gameOver = True
+                    wonBy = "diagonal from (" + str(collumn) + "," + str(lastRow) + ") to (" + str(collumn + 3) + "," + str(lastRow + 3) + ")."
+
+        return gameOver,wonBy
+
+
 
     def CheckRow(self,row,inCollumn):
         spaces = []
-        print(row,inCollumn)
+        # print(row,inCollumn)
         for collumn in range(inCollumn,inCollumn + 4):
             spaces.append(self._boardLayout[row][collumn])
-        print(spaces)
+        # print(spaces)
         if len(set(spaces)) > 1:
             return False
         else:
             return True
 
     def CheckCollumn(self,inRow,collumn):
-        print(inRow, collumn)
+        # print(inRow, collumn)
         spaces = []
         for row in range(inRow,inRow + 4):
             spaces.append(self._boardLayout[row][collumn])
-        print(spaces)
+        # print(spaces)
         if len(set(spaces)) > 1:
             return False
         else:
             return True
 
     def CheckPosDiagonal(self,row,collumn):
-        print(row,collumn)
+        # print(row,collumn)
         spaces = []
         for i in range(4):
             spaces.append(self._boardLayout[row+i][collumn-i])
-        print(spaces)
+        # print(spaces)
         if len(set(spaces)) > 1:
             return False
         else:
@@ -92,7 +118,7 @@ class board():
         spaces = []
         for i in range(4):
             spaces.append(self._boardLayout[row + i][collumn + i])
-        print(spaces)
+        # print(spaces)
         if len(set(spaces)) > 1:
             return False
         else:

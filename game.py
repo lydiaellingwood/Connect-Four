@@ -20,12 +20,12 @@ class game():
 
     def RunGame(self):
         pg.init()
-        screen = pg.display.set_mode((1920, 1080))
+        screen = pg.display.set_mode((1920 / 2, 1080 / 2))
         clock = pg.time.Clock()
         running = True
         collumnToPlace = 1
         rowToPlace = 1
-        diskPos = pg.Vector2(collumnToPlace * screen.get_width() / 8, rowToPlace * screen.get_height() / 7)
+        diskPos = pg.Vector2(collumnToPlace * screen.get_width() / 8, rowToPlace * screen.get_height() / 8)
         placedDisks = []
 
         while running:
@@ -37,9 +37,9 @@ class game():
 
             # fill the screen with a color to wipe away anything from last frame
             screen.fill("darkblue")
-            pg.draw.circle(screen, self._currentColor, diskPos, 40)
+            pg.draw.circle(screen, self._currentColor, diskPos, 20)
             for disk in placedDisks:
-                pg.draw.circle(screen,disk[0],disk[1],40)
+                pg.draw.circle(screen,disk[0],disk[1],20)
 
             keys = pg.key.get_pressed()
             if keys[pg.K_a]:
@@ -56,15 +56,20 @@ class game():
                 time.sleep(0.15)
 
             if keys[pg.K_SPACE]:
-                row = self._board.PlaceDisk(self._currentPlayer,collumnToPlace-1)
-                try:
-                    diskPos.y = row * screen.get_height()/8
+                rowPlaced = self._board.PlaceDisk(self._currentPlayer,collumnToPlace-1)
+                if str(type(rowPlaced)) == "<class 'int'>":
+                    diskPos.y = (rowPlaced + 2) * screen.get_height()/8
                     placedDisks.append([self._currentColor, diskPos.copy()])
-                    diskPos.y = rowToPlace * screen.get_height() / 7
+                    diskPos.y = rowToPlace * screen.get_height() / 8
                     self.SwapPlayer()
-                    time.sleep(0.5)
-                except:
+                    gameOver,wonBy = self._board.CheckForWinner(rowPlaced,collumnToPlace-1)
+                    if gameOver:
+                        print(self._currentPlayer, "wins with a", wonBy)
+
+                else:
                     pass
+
+                time.sleep(0.5)
 
 
             pg.display.flip()
