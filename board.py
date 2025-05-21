@@ -10,9 +10,12 @@ class board():
 
 
     def PrintBoard(self):
-        print("  0 1 2 3 4 5 6  ")
+        print("\n    0 1 2 3 4 5 6  ")
+        numOfRow = 0
         for row in self._boardLayout:
-            print("|",row[0],row[1],row[2],row[3],row[4],row[5],row[6],"|")
+            print(numOfRow,"|",row[0],row[1],row[2],row[3],row[4],row[5],row[6],"|")
+            numOfRow += 1
+        print()
 
     def PlaceDisk(self, player, collumn):
         placedRow = 0
@@ -52,7 +55,7 @@ class board():
             elif 0 <= row <= 2:
                 if self.CheckCollumn(row,lastCollumn):
                     gameOver = True
-                    wonBy = "collumn from (" + str(collumn) + "," + str(lastRow) + ") to (" + str(collumn) + "," + str(lastRow + 3) + ")."
+                    wonBy = "collumn from (" + str(lastCollumn) + "," + str(lastRow) + ") to (" + str(lastCollumn) + "," + str(lastRow + 3) + ")."
 
 
         for i in range(4):
@@ -91,6 +94,7 @@ class board():
             return False
         else:
             return True
+
 
     def CheckCollumn(self,inRow,collumn):
         # print(inRow, collumn)

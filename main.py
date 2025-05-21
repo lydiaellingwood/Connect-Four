@@ -3,17 +3,19 @@ from player import player
 from game import game
 
 def main():
+    verbose = True
 
     newBoard = board(False)
-    newBoard.PrintBoard()
-    p1 = player("Lydia","0")
-    p2 = player("Jack", "1")
+    if verbose:
+        newBoard.PrintBoard()
+    p1 = player("Jack","0")
+    p2 = player("Lydia", "1")
 
-    newGame = game(newBoard,p1,p2)
+    newGame = game(newBoard,p1,p2,verbose)
     newGame.RunGame()
 
-    newBoard.PrintBoard()
-
+    if verbose:
+        newBoard.PrintBoard()
 
 
 main()
