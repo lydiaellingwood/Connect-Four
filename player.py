@@ -6,9 +6,6 @@ class player(): # The player object
     def __str__(self):
         return self._name # Used for printing winner
 
-    def PlaceDisk(self,collumn):
-        pass
-
     def GetSymbol(self): # Used in the board object
         return self._symbol
 
