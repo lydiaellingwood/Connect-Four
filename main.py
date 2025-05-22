@@ -3,9 +3,9 @@ from player import player
 from game import game
 
 def main():
-    verbose = True
+    verbose = True # for testing
 
-    newBoard = board(False)
+    newBoard = board(verbose)
     if verbose:
         newBoard.PrintBoard()
     p1 = player("Jack","0")
