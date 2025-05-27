@@ -1,7 +1,7 @@
 import pygame as pg #Pygame help from https://scuba.cs.uchicago.edu/pygame/index.html
 import time
 
-class game():
+class game:
     def __init__(self,board,p1,p2,verbose):
         self._board = board #Object of the board class, holds all data for where pieces actually are
         self._p1 = p1 # Object of the player class
@@ -46,8 +46,8 @@ class game():
             screen.fill("darkblue")
 
             # Adds instructions to the screen
-            font = pg.font.Font('freesansbold.ttf', 16) #https://www.geeksforgeeks.org/python-display-text-to-pygame-window/
-            instructions = font.render('Use Arrow Keys or WASD to move and place disks', True, "white")
+            instructionsFont = pg.font.Font('freesansbold.ttf', 16) #https://www.geeksforgeeks.org/python-display-text-to-pygame-window/
+            instructions = instructionsFont.render('Use Arrow Keys or WASD to move and place disks', True, "white")
             screen.blit(instructions,(25,25))
 
             # Draws the current location of the disk the player plans to place
@@ -58,19 +58,22 @@ class game():
                 for y in range (2,8):
                     pg.draw.circle(screen,"darkgray",pg.Vector2(x * screen.get_width() / 8,y * screen.get_width() / 8),22)
 
-            # Draws all of the currently placed disks
+            # Draws all the currently placed disks
             for disk in placedDisks:
                 pg.draw.circle(screen,disk[0],disk[1],20)
 
             # End sequence
-            # if gameOver:
-            #     running = False
-            #     print(self._currentPlayer, "wins with a", wonBy)
-            #     winningText = font.render(self._currentPlayer.GetName() + "wins!", True, "white", "darkblue")
-            #     screen.blit(winningText, (screen.get_width() / 2, screen.get_height() / 2))
-            #     time.sleep(20)
+            if gameOver:
+                running = False
+                print(self._currentPlayer, "wins with a", wonBy)
+                winningFont = pg.font.Font('freesansbold.ttf', 32)
+                winningText = winningFont.render(self._currentPlayer.GetName() + " wins!", True, self._currentColor, "darkblue")
+                winningTextRect = winningText.get_rect(center = (screen.get_width()/2,screen.get_height()/2))
+                screen.blit(winningText, winningTextRect)
+                pg.display.flip()
+                time.sleep(5)
 
-            # Takes input from keys to move disk to place left or right a collumn
+            # Takes input from keys to move disk to place left or right a column
             keys = pg.key.get_pressed()
 
             if keys[pg.K_a] or keys[pg.K_LEFT]:
@@ -93,17 +96,14 @@ class game():
                     diskPos.y = (rowPlaced + 2) * screen.get_height()/8
                     placedDisks.append([self._currentColor, diskPos.copy()])
                     diskPos.y = rowToPlace * screen.get_height() / 8
-                    self.SwapPlayer()
                     gameOver,wonBy = self._board.CheckForWinner(rowPlaced,collumnToPlace-1) # Checks if the player has won
-                    if gameOver:
-                        running = False
-                        print(self._currentPlayer, "wins with a", wonBy)
-                        # winningText = font.render(self._currentPlayer.GetName() + "wins!", True, "white", "darkblue")
-                        # screen.blit(winningText, (25, 50))
-                        time.sleep(20)
+                    if not gameOver:
+                        self.SwapPlayer()
+
+
 
                 else: # This will happen if the player did not play in a valid space
-                    print("That collumn is full, try again")
+                    print("That column is full, try again")
 
                 time.sleep(0.5) # Delay to prevent accidental placing
 
