@@ -10,7 +10,6 @@ class game:
         self._currentColor = "red"
         self._verbose = verbose
 
-
     def SwapPlayer(self): # Swaps which player is placing
         if self._currentPlayer == self._p1:
             self._currentPlayer = self._p2
@@ -46,12 +45,9 @@ class game:
             screen.fill("darkblue")
 
             # Adds instructions to the screen
-            instructionsFont = pg.font.Font('freesansbold.ttf', 16) #https://www.geeksforgeeks.org/python-display-text-to-pygame-window/
-            instructions = instructionsFont.render('Use Arrow Keys or WASD to move and place disks', True, "white")
+            instructionsFont = pg.font.Font('freesansbold.ttf', 14) #https://www.geeksforgeeks.org/python-display-text-to-pygame-window/
+            instructions = instructionsFont.render('Use L&R arrows / A&D to change columns and SPACE to place your disk', True, "white")
             screen.blit(instructions,(25,25))
-
-            # Draws the current location of the disk the player plans to place
-            pg.draw.circle(screen, self._currentColor, diskPos, 20)
 
             # Adds background circles to the board to help show where the player can place
             for x in range (1,8):
@@ -66,12 +62,15 @@ class game:
             if gameOver:
                 running = False
                 print(self._currentPlayer, "wins with a", wonBy)
-                winningFont = pg.font.Font('freesansbold.ttf', 32)
+                winningFont = pg.font.Font('freesansbold.ttf', 48)
                 winningText = winningFont.render(self._currentPlayer.GetName() + " wins!", True, self._currentColor, "darkblue")
-                winningTextRect = winningText.get_rect(center = (screen.get_width()/2,screen.get_height()/2))
+                winningTextRect = winningText.get_rect(center = (screen.get_width()/2,screen.get_height()/8))
                 screen.blit(winningText, winningTextRect)
                 pg.display.flip()
-                time.sleep(5)
+                time.sleep(4)
+
+            # Draws the current location of the disk the player plans to place
+            pg.draw.circle(screen, self._currentColor, diskPos, 20)
 
             # Takes input from keys to move disk to place left or right a column
             keys = pg.key.get_pressed()
@@ -89,7 +88,7 @@ class game:
                 time.sleep(0.15) # Delay to prevent accidental moving
 
             # Places the current disk, along with placing a disk on the board object
-            if keys[pg.K_SPACE] or keys[pg.K_DOWN] or keys[pg.K_s]:
+            if keys[pg.K_SPACE]:
                 rowPlaced = self._board.PlaceDisk(self._currentPlayer,collumnToPlace-1)
                 if str(type(rowPlaced)) == "<class 'int'>": #Checks if placing on the board was sucessful, and also gets the row that the disk fell into
                     # Adds the disk to the list of disks to draw
@@ -100,14 +99,12 @@ class game:
                     if not gameOver:
                         self.SwapPlayer()
 
-
-
                 else: # This will happen if the player did not play in a valid space
                     print("That column is full, try again")
 
                 time.sleep(0.5) # Delay to prevent accidental placing
 
-
             pg.display.flip()
             clock.tick(60)
+
         pg.quit()

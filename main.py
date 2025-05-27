@@ -17,5 +17,4 @@ def main():
     if verbose:
         newBoard.PrintBoard()
 
-
 main()
