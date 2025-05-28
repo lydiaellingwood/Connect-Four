@@ -88,9 +88,9 @@ class board:
         for column in range(inColumn,inColumn + 4):
             spaces.append(self._boardLayout[row][column])
 
-        # if self._verbose:
-        #     print(row,inColumn)
-        #     print(spaces)
+        if self._verbose:
+            print(row,inColumn)
+            print(spaces)
 
         if len(set(spaces)) > 1:
             return False
@@ -103,9 +103,9 @@ class board:
         for row in range(inRow,inRow + 4):
             spaces.append(self._boardLayout[row][column])
 
-        # if self._verbose:
-        #     print(inRow,column)
-        #     print(spaces)
+        if self._verbose:
+            print(inRow,column)
+            print(spaces)
 
         if len(set(spaces)) > 1:
             return False
@@ -118,9 +118,9 @@ class board:
         for i in range(4):
             spaces.append(self._boardLayout[row+i][column-i])
 
-        # if self._verbose:
-        #     print(row,column)
-        #     print(spaces)
+        if self._verbose:
+            print(row,column)
+            print(spaces)
 
         if len(set(spaces)) > 1:
             return False
