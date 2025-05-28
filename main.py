@@ -3,7 +3,7 @@ from player import player
 from game import game
 
 def main():
-    verbose = True # for testing
+    verbose = False # for testing
 
     newBoard = board(verbose)
     if verbose:
