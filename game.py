@@ -67,7 +67,7 @@ class game:
                 winningTextRect = winningText.get_rect(center = (screen.get_width()/2,screen.get_height()/8))
                 screen.blit(winningText, winningTextRect)
                 pg.display.flip()
-                time.sleep(4)
+                time.sleep(10)
                 break
 
             # Draws the current location of the disk the player plans to place
