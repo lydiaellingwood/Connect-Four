@@ -49,7 +49,7 @@ class game:
             instructions = instructionsFont.render('Use L&R arrows / A&D to change columns and SPACE to place your disk', True, "white")
             screen.blit(instructions,(25,25))
 
-            # Adds background circles to the board to help show where the player can place
+            # Adds background circles to the board to help show where the player can place and imitate the classic connect four board
             for x in range (1,8):
                 for y in range (2,8):
                     pg.draw.circle(screen,"darkgray",pg.Vector2(x * screen.get_width() / 8,y * screen.get_width() / 8),22)
@@ -67,7 +67,7 @@ class game:
                 winningTextRect = winningText.get_rect(center = (screen.get_width()/2,screen.get_height()/8))
                 screen.blit(winningText, winningTextRect)
                 pg.display.flip()
-                time.sleep(10)
+                time.sleep(4)
                 break
 
             # Draws the current location of the disk the player plans to place
