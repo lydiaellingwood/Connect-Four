@@ -76,7 +76,7 @@ class board:
 
             if gameOver:
                 break
-            elif 0 <= row <= 2 and 0 <= column <= 2:
+            elif 0 <= row <= 2 and 0 <= column <= 3:
                 if self.CheckNegDiagonal(row,column):
                     gameOver = True
                     wonBy = "diagonal from (" + str(column) + "," + str(row) + ") to (" + str(column + 3) + "," + str(row + 3) + ")."
@@ -88,9 +88,9 @@ class board:
         for column in range(inColumn,inColumn + 4):
             spaces.append(self._boardLayout[row][column])
 
-        if self._verbose:
-            print(row,inColumn)
-            print(spaces)
+        # if self._verbose:
+        #     print(row,inColumn)
+        #     print(spaces)
 
         if len(set(spaces)) > 1:
             return False
@@ -103,9 +103,9 @@ class board:
         for row in range(inRow,inRow + 4):
             spaces.append(self._boardLayout[row][column])
 
-        if self._verbose:
-            print(inRow,column)
-            print(spaces)
+        # if self._verbose:
+        #     print(inRow,column)
+        #     print(spaces)
 
         if len(set(spaces)) > 1:
             return False
@@ -118,9 +118,9 @@ class board:
         for i in range(4):
             spaces.append(self._boardLayout[row+i][column-i])
 
-        if self._verbose:
-            print(row,column)
-            print(spaces)
+        # if self._verbose:
+        #     print(row,column)
+        #     print(spaces)
 
         if len(set(spaces)) > 1:
             return False
@@ -135,7 +135,6 @@ class board:
         if self._verbose:
             print(row,column)
             print(spaces)
-
 
         if len(set(spaces)) > 1:
             return False
