@@ -1,4 +1,4 @@
-#Connect Four
+# Connect Four
 
 This is a simple two player Connect Four program.
 
