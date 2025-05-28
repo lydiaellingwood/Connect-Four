@@ -27,7 +27,7 @@ class game:
         clock = pg.time.Clock()
         running = True
 
-        collumnToPlace = 1
+        collumnToPlace = 4
         rowToPlace = 1
         diskPos = pg.Vector2(collumnToPlace * screen.get_width() / 8, rowToPlace * screen.get_height() / 8) #The current position to place a disk.
         placedDisks = [] # All disks that have been placed by players
@@ -68,6 +68,7 @@ class game:
                 screen.blit(winningText, winningTextRect)
                 pg.display.flip()
                 time.sleep(4)
+                break
 
             # Draws the current location of the disk the player plans to place
             pg.draw.circle(screen, self._currentColor, diskPos, 20)
@@ -98,6 +99,8 @@ class game:
                     gameOver,wonBy = self._board.CheckForWinner(rowPlaced,collumnToPlace-1) # Checks if the player has won
                     if not gameOver:
                         self.SwapPlayer()
+                        collumnToPlace = 4
+                        diskPos.x = screen.get_width() * collumnToPlace / 8
 
                 else: # This will happen if the player did not play in a valid space
                     print("That column is full, try again")
