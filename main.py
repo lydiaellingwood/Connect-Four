@@ -8,8 +8,8 @@ def main():
     newBoard = board(verbose)
     if verbose:
         newBoard.PrintBoard()
-    p1 = player("Jack","0")
-    p2 = player("Lydia", "1")
+    p1 = player("yellow","0")
+    p2 = player("red", "1")
 
     newGame = game(newBoard,p1,p2,verbose)
     newGame.RunGame()
