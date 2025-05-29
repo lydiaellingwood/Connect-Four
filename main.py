@@ -1,18 +1,20 @@
-from email.contentmanager import get_and_fixup_unknown_message_content
-
 from board import board
 from player import player
-
+from game import game
 
 def main():
-    newBoard = board()
-    newBoard.PrintBoard()
-    p1 = player("Lydia","0")
-    p2 = player("Jack", "1")
+    verbose = False # for testing
 
-    newBoard.PlaceDisk(p1,3)
-    # for i in range(7):
-    #     newBoard.PlaceDisk(p2,3)
-    newBoard.PrintBoard()
+    newBoard = board(verbose)
+    if verbose:
+        newBoard.printBoard()
+    p1 = player("Red","0")
+    p2 = player("Yellow", "1")
+
+    newGame = game(newBoard,p1,p2,verbose)
+    newGame.runGame()
+
+    if verbose:
+        newBoard.printBoard()
 
 main()

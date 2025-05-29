@@ -1,60 +1,142 @@
-class board():
-    def __init__(self):
+class board:
+    def __init__(self,verbose):
         self._boardLayout = []
         for r in range (6):
             row = r
             self._boardLayout.append([])
             for c in range (7):
                 self._boardLayout[row].append("_")
+        self._verbose = verbose
 
-
-    def PrintBoard(self):
-        print("  1 2 3 4 5 6 7  ")
+    def printBoard(self): #Prints out the board object, mostly used in testing
+        print("\n    0 1 2 3 4 5 6  ")
+        numOfRow = 0
         for row in self._boardLayout:
-            print("|",row[0],row[1],row[2],row[3],row[4],row[5],row[6],"|")
+            print(numOfRow,"|",row[0],row[1],row[2],row[3],row[4],row[5],row[6],"|")
+            numOfRow += 1
+        print()
 
-    def PlaceDisk(self, player, collumn):
+    def placeDisk(self, player, column): #Places a disk on the board object, does not control graphics
+        placedRow = 0
         for row in range (5,-1,-1):
-            if self._boardLayout[row][collumn] == "_":
-                self._boardLayout[row][collumn] = player.GetSymbol()
+            if self._boardLayout[row][column] == "_":
+                self._boardLayout[row][column] = player.getSymbol()
                 spaceFound = True
+                placedRow = row
                 break
 
             else:
-                spaceFound = False  # will return false if there was no empty space in a collumn
+                spaceFound = False  # will return false if there was no empty space in a column
 
         if spaceFound:
-            return True
+            return placedRow
 
         else:
-            print("That collumn is full, try again")
             return False
 
+    def checkForWinner(self,lastRow,lastColumn): # Checks if any player has won
+        gameOver = False
+        wonBy = ""
 
-    def CheckForWinner(self):
-        for row in self._boardLayout:
-            for collumn in row:
+        # Checks all rows of four pieces that go through the last piece placed
+        for column in range(lastColumn,lastColumn - 4,-1):
+            if gameOver:
+                break
+            elif 0 <= column <= 3:
+                if self.checkRow(lastRow,column):
+                    gameOver = True
+                    wonBy = "row from (" + str(column) + "," + str(lastRow) + ") to (" + str(column + 3) + "," + str(lastRow) + ")."
+                    break
 
-                if collumn <= 3:
-                    self.CheckRow(row,collumn)
+        # Checks columns of four pieces that go through the last piece placed
+        for row in range(lastRow,lastRow - 4,-1):
+            if gameOver:
+                break
+            elif 0 <= row <= 2:
+                if self.checkColumn(row,lastColumn):
+                    gameOver = True
+                    wonBy = "column from (" + str(lastColumn) + "," + str(lastRow) + ") to (" + str(lastColumn) + "," + str(lastRow + 3) + ")."
 
-                if row <= 2:
-                    self.CheckCollumn(row,collumn)
+        # Checks all diagonals going this way: / that connect to the last piece placed
+        for i in range(4):
+            row = lastRow - i
+            column = lastColumn + i
 
-                if row >=3 and collumn <=2:
-                    self.CheckPosDiagonal(row,collumn)
+            if gameOver:
+                break
+            elif 0 <= row <= 2 and 3 <= column <= 6:
+                if self.checkPosDiagonal(row,column):
+                    gameOver = True
+                    wonBy = "diagonal from (" + str(column) + "," + str(row) + ") to (" + str(column - 3) + "," + str(row + 3) + ")."
 
-                if row <=3 and collumn <=2:
-                    self.CheckNegDiagonal(row,collumn)
+        # Checks all diagonals going this way \ that connect to the last piece placed
+        for i in range (4):
+            row = lastRow - i
+            column = lastColumn - i
 
-    def CheckRow(self,row,collumn):
-        pass
+            if gameOver:
+                break
+            elif 0 <= row <= 2 and 0 <= column <= 3:
+                if self.checkNegDiagonal(row,column):
+                    gameOver = True
+                    wonBy = "diagonal from (" + str(column) + "," + str(row) + ") to (" + str(column + 3) + "," + str(row + 3) + ")."
 
-    def CheckCollumn(self,row,collumn):
-        pass
+        return gameOver,wonBy
 
-    def CheckPosDiagonal(self,row,collumn):
-        pass
+    def checkRow(self,row,inColumn): # Checks if four pieces in the same row make a connect four
+        spaces = []
+        for column in range(inColumn,inColumn + 4):
+            spaces.append(self._boardLayout[row][column])
 
-    def CheckNegDiagonal(self,row,collumn):
-        pass
+        if self._verbose:
+            print(row,inColumn)
+            print(spaces)
+
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
+
+    def checkColumn(self,inRow,column): # Checks if four pieces in the same column make a connect four
+
+        spaces = []
+        for row in range(inRow,inRow + 4):
+            spaces.append(self._boardLayout[row][column])
+
+        if self._verbose:
+            print(inRow,column)
+            print(spaces)
+
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
+
+    def checkPosDiagonal(self,row,column): # Checks if four pieces in the same diagonal (/) make a connect four
+
+        spaces = []
+        for i in range(4):
+            spaces.append(self._boardLayout[row+i][column-i])
+
+        if self._verbose:
+            print(row,column)
+            print(spaces)
+
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
+
+    def checkNegDiagonal(self,row,column): # Checks if four pieces in the same diagonal (\) make a connect four
+        spaces = []
+        for i in range(4):
+            spaces.append(self._boardLayout[row + i][column + i])
+
+        if self._verbose:
+            print(row,column)
+            print(spaces)
+
+        if len(set(spaces)) > 1:
+            return False
+        else:
+            return True
