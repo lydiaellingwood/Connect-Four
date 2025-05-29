@@ -8,7 +8,7 @@ class board:
                 self._boardLayout[row].append("_")
         self._verbose = verbose
 
-    def PrintBoard(self): #Prints out the board object, mostly used in testing
+    def printBoard(self): #Prints out the board object, mostly used in testing
         print("\n    0 1 2 3 4 5 6  ")
         numOfRow = 0
         for row in self._boardLayout:
@@ -16,11 +16,11 @@ class board:
             numOfRow += 1
         print()
 
-    def PlaceDisk(self, player, column): #Places a disk on the board object, does not control graphics
+    def placeDisk(self, player, column): #Places a disk on the board object, does not control graphics
         placedRow = 0
         for row in range (5,-1,-1):
             if self._boardLayout[row][column] == "_":
-                self._boardLayout[row][column] = player.GetSymbol()
+                self._boardLayout[row][column] = player.getSymbol()
                 spaceFound = True
                 placedRow = row
                 break
@@ -34,7 +34,7 @@ class board:
         else:
             return False
 
-    def CheckForWinner(self,lastRow,lastColumn): # Checks if any player has won
+    def checkForWinner(self,lastRow,lastColumn): # Checks if any player has won
         gameOver = False
         wonBy = ""
 
@@ -43,7 +43,7 @@ class board:
             if gameOver:
                 break
             elif 0 <= column <= 3:
-                if self.CheckRow(lastRow,column):
+                if self.checkRow(lastRow,column):
                     gameOver = True
                     wonBy = "row from (" + str(column) + "," + str(lastRow) + ") to (" + str(column + 3) + "," + str(lastRow) + ")."
                     break
@@ -53,7 +53,7 @@ class board:
             if gameOver:
                 break
             elif 0 <= row <= 2:
-                if self.CheckColumn(row,lastColumn):
+                if self.checkColumn(row,lastColumn):
                     gameOver = True
                     wonBy = "column from (" + str(lastColumn) + "," + str(lastRow) + ") to (" + str(lastColumn) + "," + str(lastRow + 3) + ")."
 
@@ -65,7 +65,7 @@ class board:
             if gameOver:
                 break
             elif 0 <= row <= 2 and 3 <= column <= 6:
-                if self.CheckPosDiagonal(row,column):
+                if self.checkPosDiagonal(row,column):
                     gameOver = True
                     wonBy = "diagonal from (" + str(column) + "," + str(row) + ") to (" + str(column - 3) + "," + str(row + 3) + ")."
 
@@ -77,13 +77,13 @@ class board:
             if gameOver:
                 break
             elif 0 <= row <= 2 and 0 <= column <= 3:
-                if self.CheckNegDiagonal(row,column):
+                if self.checkNegDiagonal(row,column):
                     gameOver = True
                     wonBy = "diagonal from (" + str(column) + "," + str(row) + ") to (" + str(column + 3) + "," + str(row + 3) + ")."
 
         return gameOver,wonBy
 
-    def CheckRow(self,row,inColumn): # Checks if four pieces in the same row make a connect four
+    def checkRow(self,row,inColumn): # Checks if four pieces in the same row make a connect four
         spaces = []
         for column in range(inColumn,inColumn + 4):
             spaces.append(self._boardLayout[row][column])
@@ -97,7 +97,7 @@ class board:
         else:
             return True
 
-    def CheckColumn(self,inRow,column): # Checks if four pieces in the same column make a connect four
+    def checkColumn(self,inRow,column): # Checks if four pieces in the same column make a connect four
 
         spaces = []
         for row in range(inRow,inRow + 4):
@@ -112,7 +112,7 @@ class board:
         else:
             return True
 
-    def CheckPosDiagonal(self,row,column): # Checks if four pieces in the same diagonal (/) make a connect four
+    def checkPosDiagonal(self,row,column): # Checks if four pieces in the same diagonal (/) make a connect four
 
         spaces = []
         for i in range(4):
@@ -127,7 +127,7 @@ class board:
         else:
             return True
 
-    def CheckNegDiagonal(self,row,column): # Checks if four pieces in the same diagonal (\) make a connect four
+    def checkNegDiagonal(self,row,column): # Checks if four pieces in the same diagonal (\) make a connect four
         spaces = []
         for i in range(4):
             spaces.append(self._boardLayout[row + i][column + i])

@@ -6,8 +6,8 @@ class player: # The player object
     def __str__(self):
         return self._name # Used for printing winner
 
-    def GetSymbol(self): # Used in the board object
+    def getSymbol(self): # Used in the board object
         return self._symbol
 
-    def GetName(self):
+    def getName(self):
         return self._name

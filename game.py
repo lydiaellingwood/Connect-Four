@@ -10,7 +10,7 @@ class game:
         self._currentColor = "red"
         self._verbose = verbose
 
-    def SwapPlayer(self): # Swaps which player is placing
+    def swapPlayer(self): # Swaps which player is placing
         if self._currentPlayer == self._p1:
             self._currentPlayer = self._p2
             self._currentColor = "yellow"
@@ -18,7 +18,7 @@ class game:
             self._currentPlayer = self._p1
             self._currentColor = "red"
 
-    def RunGame(self):
+    def runGame(self):
 
         # Pygame setup
         pg.init()
@@ -63,11 +63,11 @@ class game:
                 running = False
                 print(self._currentPlayer, "wins with a", wonBy)
                 winningFont = pg.font.Font('freesansbold.ttf', 48)
-                winningText = winningFont.render(self._currentPlayer.GetName() + " wins!", True, self._currentColor, "darkblue")
+                winningText = winningFont.render(self._currentPlayer.getName() + " wins!", True, self._currentColor, "darkblue")
                 winningTextRect = winningText.get_rect(center = (screen.get_width()/2,screen.get_height()/8))
                 screen.blit(winningText, winningTextRect)
                 pg.display.flip()
-                time.sleep(4)
+                time.sleep(3)
                 break
 
             # Draws the current location of the disk the player plans to place
@@ -90,15 +90,15 @@ class game:
 
             # Places the current disk, along with placing a disk on the board object
             if keys[pg.K_SPACE]:
-                rowPlaced = self._board.PlaceDisk(self._currentPlayer,collumnToPlace-1)
+                rowPlaced = self._board.placeDisk(self._currentPlayer,collumnToPlace-1)
                 if str(type(rowPlaced)) == "<class 'int'>": #Checks if placing on the board was sucessful, and also gets the row that the disk fell into
                     # Adds the disk to the list of disks to draw
                     diskPos.y = (rowPlaced + 2) * screen.get_height()/8
                     placedDisks.append([self._currentColor, diskPos.copy()])
                     diskPos.y = rowToPlace * screen.get_height() / 8
-                    gameOver,wonBy = self._board.CheckForWinner(rowPlaced,collumnToPlace-1) # Checks if the player has won
+                    gameOver,wonBy = self._board.checkForWinner(rowPlaced,collumnToPlace-1) # Checks if the player has won
                     if not gameOver:
-                        self.SwapPlayer()
+                        self.swapPlayer()
                         collumnToPlace = 4
                         diskPos.x = screen.get_width() * collumnToPlace / 8
 
